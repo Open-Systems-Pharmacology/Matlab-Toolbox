@@ -1,0 +1,141 @@
+require_relative 'scripts/setup'
+require_relative 'scripts/copy-dependencies'
+require_relative 'scripts/wix'
+
+PROJECT_NAME = 'MoBiToolboxForMatlab'
+PRODUCT_NAME = 'MoBi Toolbox for Matlab'
+MANUFACTURER = 'Open Systems Pharmacology'
+PRODUCT_ID = Utils.uuid.to_s
+
+WIX = {
+  code: 'CODE_DIR', 
+  examples: 'EXAMPLE_DIR', 
+  manual: 'MANUAL_DIR', 
+  lib: 'LIB_DIR'
+}
+
+task :create_setup,[:product_version] do |t, args|
+  @product_version = args.product_version
+  release_version_split= @product_version.split('.')
+  @product_release_version = "#{release_version_split[0]}.#{release_version_split[1]}"
+  @product_full_name = "#{PRODUCT_NAME} #{@product_release_version}"
+
+  Rake::Task['execute_light'].invoke
+end
+
+desc "create heat files for all required dynamic elements"
+task :create_heat_files => :prepare do
+  WIX.each do |name,value|
+    folder = File.join(src_dir, name.to_s)
+    Rake::Task[:heat].execute  OpenStruct.new(
+      source_directory: folder, 
+      component_name: name.to_s,
+      output_dir: deploy_dir,
+      install_dir: value
+      )
+  end
+end
+
+task :execute_light => :run_all_candles do
+  all_wixobj = []
+  Dir.glob("#{deploy_dir}/*.wixobj").each{|f| all_wixobj << f}
+  all_options = %W[-o #{deploy_dir}/#{PROJECT_NAME}.#{@product_version}.msi -nologo -ext WixUIExtension -ext WixNetFxExtension -sice:ICE61 -spdb -b #{deploy_dir}/ -cultures:en-us]
+  Utils.run_cmd Wix.light, all_wixobj +  all_options
+end
+
+desc "Run candles"
+task :run_all_candles => :create_heat_files  do
+  variables = {}
+  variables[:ProductId] =  PRODUCT_ID
+  variables[:ProductName] =  PRODUCT_NAME
+  variables[:Manufacturer] =  MANUFACTURER
+  variables[:ProductFullName] =  @product_full_name
+  variables[:ProductVersion] =   @product_version
+  variables[:ProductReleaseVersion] =  @product_release_version
+
+  # dynamic components
+  WIX.each_key do |name|
+    execute_candle name.to_s, File.join(src_dir, name.to_s), variables
+  end
+  
+  #setup
+  execute_candle 'setup', deploy_dir, variables
+end
+
+desc "cleanup files before starting compilation"
+task :prepare do
+  FileUtils.rm_rf  deploy_dir
+  FileUtils.rm_rf  deploy_lib_dir
+
+  FileUtils.mkdir_p deploy_dir
+  FileUtils.mkdir_p deploy_lib_dir
+  copy_setup_files
+end
+
+desc "Copy all required binaries under the lib folder located under src."
+task :copy_lib do
+  src_lib_dir = File.join(src_dir, 'lib')
+  copy_to_lib_dir src_lib_dir  
+end
+
+private
+
+def copy_setup_files
+  copy_depdencies setup_dir, deploy_dir do
+    copy_files '**', ['wxs', 'msm', 'rtf', 'bmp']
+  end
+
+  copy_to_lib_dir deploy_lib_dir
+end
+
+def copy_to_lib_dir(target_lib_dir) 
+  copy_depdencies lib_dir, target_lib_dir do
+    copy_dci_dll
+    copy_dcimatlab_dll
+  end
+
+  architecture = '/**/x86/**/Release'
+  packages_dir =  File.join(solution_dir, 'packages')
+
+  copy_depdencies packages_dir, target_lib_dir do
+    copy_files 'OSPSuite.Core', 'xml'
+    copy_files 'OSPSuite.SimModel', 'xsd'
+    copy_files "OSPSuite.SimModelComp#{architecture}", 'dll'
+    copy_files "OSPSuite.SimModel#{architecture}", 'dll'
+    copy_files "OSPSuite.FuncParser#{architecture}", 'dll'
+    copy_files "OSPSuite.SimModelSolver_CVODES282#{architecture}", 'dll'    
+  end
+end
+
+def execute_candle(component_name, deploy, variables)
+  all_variables = variables.each.collect do |k, v|
+    "-d#{k}=#{v}"
+  end
+
+  command_line = %W[#{File.join(deploy_dir, "#{component_name}.wxs")} -dDeployDir=#{deploy} -o #{deploy_dir}/]
+  Utils.run_cmd Wix.candle, command_line + all_variables
+end
+
+def deploy_dir
+  File.join(setup_dir,"deploy")
+end
+
+def deploy_lib_dir
+  File.join(src_dir, "lib")
+end
+
+def setup_dir
+  File.join(solution_dir, "setup")
+end
+
+def solution_dir
+  File.dirname(__FILE__)
+end
+
+def src_dir
+  File.join(solution_dir,'src')
+end
+
+def lib_dir
+  File.join(solution_dir,'lib')
+end

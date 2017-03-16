@@ -1,0 +1,43 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Manipulate parameters</title><meta name="generator" content="DocBook XSL-NS Stylesheets V1.76.1"><style type="text/css">
+body { background-image: url('./Images/draft.png');
+       background-repeat: no-repeat;
+       background-position: top left;
+       /* The following properties make the watermark "fixed" on the page. */
+       /* I think that's just a bit too distracting for the reader... */
+       /* background-attachment: fixed; */
+       /* background-position: center center; */
+     }</style><link rel="home" href="index.html" title="Chapter&nbsp;1.&nbsp;Matlab&reg; - Introduction"><link rel="up" href="index.html" title="Chapter&nbsp;1.&nbsp;Matlab&reg; - Introduction"><link rel="prev" href="ch01s04.html" title="Initialization"><link rel="next" href="ch01s06.html" title="Observer"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Manipulate parameters</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01s04.html"><img src="Images/prev.gif" alt="Prev"></a>&nbsp;</td><th width="60%" align="center">&nbsp;</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="ch01s06.html"><img src="Images/next.gif" alt="Next"></a></td></tr></table><hr></div><div class="section" title="Manipulate parameters"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Matlab_Manipulate_parameters"></a>Manipulate parameters</h2></div></div></div><p>In the following, different functions are listed, which allow checking the existence
+            of a parameter as well as getting and changing its value. Most functions come in two
+            versions to distinguish the different types of parameters, i.e., <span class="italic">parameter</span> and <span class="italic">species initial
+            value</span>.</p><p> There are three kinds of parameters: </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+                        <code class="option">Readonly</code> All parameters exist as read only parameter, the
+                        values can be read but not be varied.</p></li><li class="listitem"><p>
+                        <code class="option">Variable</code> Parameters, which are set to variables during the
+                        initialization. The values can be read and varied.</p></li><li class="listitem"><p>
+                        <code class="option">Reference</code> For every variable parameter a reference
+                        parameter exists. Variable parameters can be set relative to this reference
+                        parameter. The values of reference parameter can be varied. </p></li></ul></div><p>
+        </p><p>For further details on the functions, please consult the M-file help available within
+                <span class="trademark">Matlab</span>&reg;.</p><div class="section" title="Check Parameter existence"><div class="titlepage"><div><div><h3 class="title"><a name="Matlab_Check_Parameter_existence"></a>Check Parameter existence</h3></div></div></div><p>The following, functions allow you to check for the existence of a certain
+                parameter (in the specified model, simulation, level):</p><p><span class="command"><strong>existsParameter</strong></span> Checks the existence of a parameter and returns
+                its description.</p><p><span class="command"><strong>existsSpeciesInitialValue</strong></span> Checks the existence of a species
+                initial values and returns its description.</p></div><div class="section" title="Get parameter values"><div class="titlepage"><div><div><h3 class="title"><a name="Matlab_Get_Parameter_existence"></a>Get parameter values</h3></div></div></div><p>The following functions allow you to check for the current parameter
+                values.</p><p><span class="command"><strong>getParameter</strong></span> Returns the value and other properties of a
+                parameter.</p><p><span class="command"><strong>getSpeciesInitialValue</strong></span> Returns the value and other properties
+                of a species initial value. </p></div><div class="section" title="Set absolute parameter values"><div class="titlepage"><div><div><h3 class="title"><a name="Matlab_Set_absolute_Parameter"></a>Set absolute parameter values</h3></div></div></div><p>The following functions allow you to change the value of an initialized parameter
+                by providing a new absolute parameter value.</p><p><span class="command"><strong>setParameter</strong></span> Sets the value of a specific parameter.</p><p><span class="command"><strong>setSpeciesInitialValue</strong></span> Sets the value or scale factor of a
+                specific species initial value. </p></div><div class="section" title="Set relative parameter values"><div class="titlepage"><div><div><h3 class="title"><a name="Matlab_Set_relative_Parameter"></a>Set relative parameter values</h3></div></div></div><p>The following functions allow you to change the value of an initialized parameter
+                by changing the parameter value relative to the default.</p><p><span class="command"><strong>setRelativeParameter</strong></span> Sets the value of a variable parameter
+                relative to reference.</p><p><span class="command"><strong>setRelativeSpeciesInitialValue</strong></span> Sets the value or scale factor
+                of a specific species relative to reference.</p></div><div class="section" title="Set all parameter values"><div class="titlepage"><div><div><h3 class="title"><a name="Matlab_Set_all_Parameter"></a>Set all parameter values</h3></div></div></div><p>The following functions allow you to get and set the value of all initialized
+                parameter simultaneously.</p><p><span class="command"><strong>setAllParameters</strong></span> Sets all parameter values of one type (source)
+                to the values of another type (target).</p><p><span class="command"><strong>getParameterStatus</strong></span> Saves values of the given parameter type in
+                the variable parameterStatus.</p><p><span class="command"><strong>setParameterStatus</strong></span> Sets the previously stored values of the
+                given parameter type.</p></div><div class="section" title="Table parameters"><div class="titlepage"><div><div><h3 class="title"><a name="Matlab_Table_Parameter"></a>Table parameters</h3></div></div></div><p>The following functions allow you to get and set the table of table
+                parameters.</p><p><span class="command"><strong>setTableParameter</strong></span> Sets the table for a specific
+                parameter.</p><p><span class="command"><strong>getTableParameter</strong></span> Retrieves the table of a specific
+                parameter.</p><p>To get a value vector for a specified time profile with interpolated values taken
+                from the table please use the <span class="command"><strong>getParameter</strong></span> function with a time
+                profile parameter. </p></div></div></body></html>

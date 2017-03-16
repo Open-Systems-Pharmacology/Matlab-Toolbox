@@ -1,0 +1,111 @@
+function modelTree_searchParameterInTree(hmenu, evdata, node)
+%SEARCHPARAMETERINTREE Context menu action for tree generated with createTree
+%   search parameter defined by searchstring
+%
+%   showFormulaInTree(hmenu, evdata, node)
+%       hmenu: javax.swing.JMenuItem
+%       evdata: java.awt.event.ActionEvent
+%       node: com.mathworks.hg.peer.UITreeNode
+%       
+
+% Open Systems Pharmacology Suite;  support@systems-biology.com
+% Date: 21-Jun-2011
+
+% get Type
+ID=node.getValue();
+level=node.getLevel()-2;
+if ID==0
+    node=node.getFirstLeaf();
+    ID=node.getValue();
+end
+type=node.getUserObject;
+
+% get Tree and warning handle
+root=node.getRoot();
+tmp=root.getUserObject();
+parameterTree=tmp(1);
+warning_handle=tmp(2);
+
+% reset warning handle
+set(warning_handle,'String','');
+
+if isempty(parameterTree)
+    return;
+end
+isMultipleSelectionEnabled=parameterTree.isMultipleSelectionEnabled;
+
+% get Default String
+switch type
+    case {'P','pop'}  % pop is called by Population simulation define populations
+        path_id=getParameter(ID,1,'property','Path');
+    case 'S'
+        path_id=getSpeciesInitialValue(ID,1,'property','Path');
+    case 'O'
+        path_id=getObserverFormula(ID,1,'property','Path');
+end
+ji_sep=strfind(path_id,'/');
+if length(ji_sep)==level
+    default_string=path_id;
+elseif level<1
+    default_string='*';
+elseif isempty(ji_sep)
+    default_string=path_id;
+else
+    default_string=[path_id(1:ji_sep(level)) '*'];
+end
+
+
+% Get searchstring
+prompt={['Enter the model path of the object to search:' char(10) 'Use * as wildcard']};
+name='Searchstring';
+numlines=1;
+defaultanswer={default_string};
+options.Resize='on';
+
+answer=inputdlg(prompt,name,numlines,defaultanswer,options);
+
+if isempty(answer)
+    return
+end
+
+% get IDs of selected nodes
+switch type
+    case 'P'
+        if existsParameter(answer{1},1)
+            ID=getParameter(answer{1},1,'property','ID');
+            if ~isMultipleSelectionEnabled
+                ID=ID(1);
+            end
+            model_path=getParameter(ID,1,'property','Path');
+        else
+            ID=[];
+            model_path={};
+        end
+    case 'S'
+        if existsSpeciesInitialValue(answer{1},1)
+            ID=getSpeciesInitialValue(answer{1},1,'property','ID');
+            if ~isMultipleSelectionEnabled
+                ID=ID(1);
+            end
+            model_path=getSpeciesInitialValue(ID,1,'property','Path');
+        else
+            ID=[];
+            model_path={};
+        end
+    case 'O'
+        if existsObserver(answer{1},1)
+            ID=getObserverFormula(answer{1},1,'property','ID');
+            if ~isMultipleSelectionEnabled
+                ID=ID(1);
+            end
+            model_path=getObserverFormula(ID,1,'property','Path');
+        else
+            ID=[];
+            model_path={};
+        end
+end
+
+
+setParametersToSelected(parameterTree, ID, model_path,type,warning_handle);
+
+return
