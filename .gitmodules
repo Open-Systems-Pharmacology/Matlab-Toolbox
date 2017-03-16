@@ -4,3 +4,6 @@
 [submodule "lib/DCI"]
 	path = lib/DCI
 	url = https://github.com/Open-Systems-Pharmacology/DCI.git
+[submodule "lib/Dimensions"]
+	path = lib/Dimensions
+	url = https://github.com/Open-Systems-Pharmacology/OSPSuite.Dimensions.git
