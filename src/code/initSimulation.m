@@ -190,6 +190,12 @@ if ret==0
     error('Error in Configure: %s',errmsg);
 end
 
+%for the moment set all output variables/observer as persistable, so that their values are accessible after processSimulation
+%this should be changed in the future to setting only otputs of interest  as persistable 
+ret = feval(MOBI_SETTINGS.MatlabInterface,'Invoke', DCI_INFO{simulationIndex}.Handle, 'SetAllOutputsPersistable', '');
+if ~strcmp(ret, '')
+    error(ret);
+end
 
 
 %% Initialize Parameters
