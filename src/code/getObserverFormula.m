@@ -35,8 +35,8 @@ function [value,rowIndex] = getObserverFormula(path_id,simulationIndex,varargin)
 %
 %
 % Example Calls:
-% [formula,rowIndex]=getObserverFormula('SpecModel/Organism/Lung/Cell/C/AmountObs_2',1);;
-% [ID,rowIndex]=getObserverFormula('SpecModel/Organism/Lung/Cell/C/AmountObs_2',1,'property','ID');
+% [formula,rowIndex]=getObserverFormula('SpecModel|Organism|Lung|Cell|C|AmountObs_2',1);;
+% [ID,rowIndex]=getObserverFormula('SpecModel|Organism|Lung|Cell|C|AmountObs_2',1,'property','ID');
 %
 % see also INITSIMULATION
 
