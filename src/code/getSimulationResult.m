@@ -36,8 +36,8 @@ function [sim_time,sim_values,rowIndex,path_id_list]=getSimulationResult(path_id
 %
 %
 % Example Calls:
-% [sim_time,sim_values,rowIndex]=getSimulationResult('TopContainer/Educt',1);
-% [sim_time,sim_values,rowIndex]=getSimulationResult('TopContainer/Educt',1,'rowIndex',rowIndex);
+% [sim_time,sim_values,rowIndex]=getSimulationResult('TopContainer|Educt',1);
+% [sim_time,sim_values,rowIndex]=getSimulationResult('TopContainer|Educt',1,'rowIndex',rowIndex);
 %
 % see also INITSIMULATION
 
