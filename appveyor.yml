@@ -1,11 +1,18 @@
 environment:
-  app_version: '7.1.0'
+  app_version: '7.2.0'
 
 version: '%app_version%.{build}'
 
 install:
   - set PATH=C:\Ruby22\bin;%PATH%
   - git submodule update --init --recursive
+
+
+branches:
+  only:
+    - develop
+
+skip_tags: true
 
 skip_commits:
   files:
