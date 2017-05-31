@@ -7,7 +7,6 @@ install:
   - set PATH=C:\Ruby22\bin;%PATH%
   - git submodule update --init --recursive
 
-
 branches:
   only:
     - develop
