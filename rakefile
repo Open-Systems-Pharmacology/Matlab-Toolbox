@@ -8,7 +8,7 @@ MANUFACTURER = 'Open Systems Pharmacology'
 PRODUCT_ID = Utils.uuid.to_s
 
 WIX = {
-  code: 'CODE_DIR', 
+  matlab_toolbox_core: 'MATLAB_TOOLBOX_CODE_DIR', 
   examples: 'EXAMPLE_DIR', 
   manual: 'MANUAL_DIR', 
   lib: 'LIB_DIR'
