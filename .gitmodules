@@ -7,3 +7,6 @@
 [submodule "lib/Dimensions"]
 	path = lib/Dimensions
 	url = https://github.com/Open-Systems-Pharmacology/OSPSuite.Dimensions.git
+[submodule "src/matlab_toolbox_core"]
+	path = src/matlab_toolbox_core
+	url = https://github.com/Open-Systems-Pharmacology/Matlab-Toolbox-Core.git
