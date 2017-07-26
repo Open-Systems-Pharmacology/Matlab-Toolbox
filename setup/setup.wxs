@@ -23,7 +23,7 @@
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="OSP_SUITE" Name="$(var.Manufacturer)">
                 <Directory Id="INSTALLDIR" Name="$(var.ProductFullName)">
-                    <Directory Id="CODE_DIR" Name="code"/>
+                    <Directory Id="MATLAB_TOOLBOX_CODE_DIR" Name="matlab_toolbox_core"/>
                     <Directory Id="EXAMPLE_DIR" Name="examples"/>
                     <Directory Id="MANUAL_DIR" Name="manual"/>
                     <Directory Id="LIB_DIR" Name="lib"/>
@@ -32,13 +32,13 @@
         </Directory>
 
         <Property Id="ARPHELPLINK" Value="http://www.open-systems-pharmacology.org"/>
-        <Property Id="ARPCONTACT" Value="support@systems-biology.com"/>
+        <Property Id="ARPCONTACT" Value="http://forum.open-systems-pharmacology.org"/>
         <Property Id="ARPURLUPDATEINFO" Value="http://www.open-systems-pharmacology.org"/>
         <Property Id="ARPURLINFOABOUT" Value="http://www.open-systems-pharmacology.org"/>
 
 
         <Feature Id="Main" Title="$(var.ProductName)" Level="1" Absent="disallow" AllowAdvertise="no">
-            <ComponentGroupRef Id="code"/>
+            <ComponentGroupRef Id="matlab_toolbox_core"/>
             <ComponentGroupRef Id="examples"/>
             <ComponentGroupRef Id="manual"/>
             <ComponentGroupRef Id="lib"/>
@@ -52,6 +52,6 @@
         <UIRef Id="WixUI_InstallDir"/>
         <UIRef Id="WixUI_ErrorProgressText"/>
         <WixVariable Id="WixUILicenseRtf" Value="EULA.rtf"/>
-        <WixVariable Id="WixUIBannerBmp" Value="PKSimBanner.bmp"/>
+        <WixVariable Id="WixUIBannerBmp" Value="OSPBanner.bmp"/>
     </Product>
 </Wix>
