@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="$(var.ProductId)" Name="$(var.ProductFullName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="(var.Manufacturer)" UpgradeCode="3F112422-6D6E-47C3-8786-BAE50AC3D79F">
+    <Product Id="$(var.ProductId)" Name="$(var.ProductFullName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="3F112422-6D6E-47C3-8786-BAE50AC3D79F">
         <Package InstallerVersion="200" Compressed="yes" InstallPrivileges="elevated"/>
 
        <Condition Message="For a correct installation of the software, administrator rights are necessary. You do not have these rights. Please contact your IT-administrator to carry out the installation">Privileged</Condition>
