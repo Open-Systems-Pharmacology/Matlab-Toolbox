@@ -91,6 +91,7 @@ end
 def copy_to_lib_dir(target_lib_dir) 
   copy_depdencies lib_dir, target_lib_dir do
     copy_dci_dll
+    copy_schema_xsd
     copy_dcimatlab_dll
     copy_dimensions_xml
   end
@@ -99,8 +100,6 @@ def copy_to_lib_dir(target_lib_dir)
   packages_dir =  File.join(solution_dir, 'packages')
 
   copy_depdencies packages_dir, target_lib_dir do
-    copy_files 'OSPSuite.Core', 'xml'
-    copy_files 'OSPSuite.SimModel', 'xsd'
     copy_files 'OSPSuite.SimModelComp', 'xml'
     copy_files "OSPSuite.SimModelComp#{architecture}", 'dll'
     copy_files "OSPSuite.SimModel#{architecture}", 'dll'
