@@ -4,6 +4,8 @@
 The MoBi® Toolbox for Matlab® is a collection of Matlab® functions, which allows for the processing of models developed in PK-Sim® or  MoBi® from within Matlab®. For example, the Matlab® environment can be used to change parameters in a model, simulate the model, and analyze the results. This allows for an efficient operation in the model analysis stage, using the programming options as well as the function library available within Matlab® in combination with the powerful modeling interface and solver kernel included in PK-Sim® and 
 MoBi®. In addition, the toolbox offers efficient analysis methods tailored to the needs of systems biology and PBPK modeling including parameter identification and optimization. 
 
+**The MoBi® Toolbox for Matlab® is currently only available for the 32bit Matlab® (version 2013b or later).**
+
 The Toolbox can be found under _**Program Files (x86)/Open Systems Pharmacology/MoBi Toolbox for Matlab X.Y**_
 
 ## Typical Matlab script to evaluate a model
