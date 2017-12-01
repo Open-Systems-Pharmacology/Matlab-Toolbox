@@ -4,6 +4,8 @@
 The MoBi® Toolbox for Matlab® is a collection of Matlab® functions, which allows for the processing of models developed in PK-Sim® or  MoBi® from within Matlab®. For example, the Matlab® environment can be used to change parameters in a model, simulate the model, and analyze the results. This allows for an efficient operation in the model analysis stage, using the programming options as well as the function library available within Matlab® in combination with the powerful modeling interface and solver kernel included in PK-Sim® and 
 MoBi®. In addition, the toolbox offers efficient analysis methods tailored to the needs of systems biology and PBPK modeling including parameter identification and optimization. 
 
+**The MoBi® Toolbox for Matlab® is currently only available for the 32bit Matlab® (version 2013b or later).**
+
 The Toolbox can be found under _**Program Files (x86)/Open Systems Pharmacology/MoBi Toolbox for Matlab X.Y**_
 
 ## Typical Matlab script to evaluate a model
@@ -38,7 +40,7 @@ The file is ideally suited for non-experts to start generating executable Matlab
 Everyone interacting in the Open Systems Pharmacology community (codebases, issue trackers, chat rooms, mailing lists etc...) is expected to follow the Open Systems Pharmacology [code of conduct](https://github.com/Open-Systems-Pharmacology/Suite/blob/master/CODE_OF_CONDUCT.md).
 
 ## Contribution
-We encourage contribution to the Open Systems Pharmacology community. Before getting started please read the [contribution guidelines](https://github.com/Open-Systems-Pharmacology/Suite/blob/master/CONTRIBUTING.md). If you are contributing code, please be familiar with the [coding standard](https://github.com/Open-Systems-Pharmacology/Suite/blob/master/CODING_STANDARD.md).
+We encourage contribution to the Open Systems Pharmacology community. Before getting started please read the [contribution guidelines](https://github.com/Open-Systems-Pharmacology/Suite/blob/master/CONTRIBUTING.md). If you are contributing code, please be familiar with the [coding standards](https://github.com/Open-Systems-Pharmacology/Suite/blob/master/CODING_STANDARDS.md).
 
 ## License
 Matlab-Toolbox is released under the [GPLv2 License](LICENSE).
