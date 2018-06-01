@@ -9,8 +9,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_1_initSimulation_varia
 %       ErrorMessage (string): Description of the error
  
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 20-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 global DCI_INFO;
 
@@ -58,7 +57,7 @@ TestDescription{end+1}='3) option = allNonFormula;';
 initSimulation(xml,'allNonFormula','report','none');
 
 success=length(DCI_INFO{1}.InputTab(2).Variables(1).Values)==1408 && ...
-length(DCI_INFO{1}.InputTab(4).Variables(1).Values)==1129;
+length(DCI_INFO{1}.InputTab(4).Variables(1).Values)==129;
 
 if ~success
     ErrorFlag_tmp(end+1)=2;
@@ -108,13 +107,11 @@ end
 
 %% 'structure' initializeIfFormula never
 logfile='initSimulation_variableParameters';
-diary( ['log/' logfile '_' datestr(now,'yyyy_mm_dd') '.log']);
+diary( ['log/' logfile '_' datestr(now,'yyyy_mm_dd_hhMM') '.log']);
 diary on;
 
 
 
-ErrorFlag_tmp(end+1)=1;
-ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
 %%
 disp(' ');
 TestDescription{end+1}='6) "structure" initializeIfFormula never for initParameter;';
@@ -127,6 +124,11 @@ try
     initSimulation(xml,initStruct,'report','none');
 catch exception
     disp(exception.message);
+    if ~strcmp(exception.message,['The parameter ID=2, path=PopSim|Organism|PostMenstrualAge is defined as Formula: "Age* 365/7 + 40" !',char(10),...
+            'If you want to initialize this paramater do not use option "never" for the function initParameter!'])
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=['Failed in 6) check logfile:' logfile '!'];
+    end
 end
 
 disp(' ');
@@ -140,6 +142,11 @@ try
     initSimulation(xml,initStruct,'report','none');
 catch exception
     disp(exception.message);
+    if ~strcmp(exception.message,['The species initial value ID=752, path=PopSim|Organism|Lumen|Stomach|Liquid is defined as Formula: "V*SteadyStateFillLevel" !',char(10),...
+            'If you want to initialize this  species initial value  do not use option "never" for the function initSpeciesInitialValue!'])
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=['Failed in 7) check logfile:' logfile '!'];
+    end
 end
 
 
@@ -148,12 +155,16 @@ disp('Test unknown keyword for initParameter: expected is a warning');
 TestDescription{end+1}='8) Test unknown keyword for initParameter: expected is a warning;';
 disp(sprintf('Test: %s',TestDescription{end})); %#ok<*DSPS>
 initStruct=[];
-initStruct=initParameter(initStruct,'*','hallo');
 
 try
+    initStruct=initParameter(initStruct,'*','hallo');
     initSimulation(xml,initStruct,'report','none');
 catch exception
     disp(exception.message);
+    if ~strcmp(exception.message,'wrong input for initializeIfFormula="hallo"; please use "always","withWarning" or "never"')
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=['Failed in 8) check logfile:' logfile '!'];
+    end
 end
 
 %%
@@ -166,8 +177,17 @@ initStruct=initParameter(initStruct,'hallo');
 
 try
     initSimulation(xml,initStruct,'report','none');
+    
+    warnmsg = lastwarn;
+     if ~strcmp(warnmsg,'The parameter path=hallo does not exist in the simulation models\PopSim.xml')
+        ErrorFlag_tmp(end+1)=1;
+        ErrorMessage_tmp{end+1}=['Failed in 9.1) check logfile:' logfile '!'];
+     end
 catch exception
     disp(exception.message);
+    ErrorFlag_tmp(end+1)=2;
+    ErrorMessage_tmp{end+1}=['Failed in 9.1) check logfile:' logfile '!'];
+
 end
 
 %%
@@ -179,7 +199,13 @@ initStruct=[];
 initStruct=initParameter(initStruct,'hallo','always','throwWarningIfNotExisting',false);
 
 try
+    warnmsgbefore = lastwarn;
     initSimulation(xml,initStruct,'report','none');
+    warnmsgafter = lastwarn;
+     if ~strcmp(warnmsgbefore,warnmsgafter)
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=['Failed in 9.2) check logfile:' logfile '!'];
+     end
 catch exception
     disp(exception.message);
 end

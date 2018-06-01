@@ -9,8 +9,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_2_setParameter
 %       ErrorMessage (string): Description of the error
 % % ToDo test if the DCI Interface accepts  the chagned values 
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 22-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 global DCI_INFO;
 

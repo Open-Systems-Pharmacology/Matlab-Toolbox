@@ -9,8 +9,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_1_initSimulation_repor
 %       ErrorMessage (string): Description of the error
  
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 21-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 
 ErrorFlag_tmp=0;
@@ -20,12 +19,9 @@ TestDescription={};
 
 xml=['models' filesep 'PopSim.xml'];
 
-logfile='initSimulation_report';
-diary( ['log/' logfile '_' datestr(now,'yyyy_mm_dd') '.log']);
+logfile =  fullfile('log',['initSimulation_report_' datestr(now,'yyyy_mm_dd_hhMM') '.log']);
+diary( logfile);
 diary on;
-
-ErrorFlag_tmp(end+1)=1;
-ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
 
 % test report=none
 TestDescription{end+1}='1) test report=none;';
@@ -44,6 +40,30 @@ initSimulation(xml,'all','report','long');
 
 
 diary off;
+
+
+fid = fopen(logfile);
+tmp=textscan(fid,'%s','delimiter','\n');
+C=tmp{1};
+fclose(fid);
+
+% check logfile
+if length(C) ~= 7321
+    ErrorFlag_tmp=2;
+    ErrorMessage_tmp{1}='length of logfile not correct';
+end
+if ~strcmp(C{1},'1) test report=none;')
+    ErrorFlag_tmp(end+1) = 2;
+    ErrorMessage_tmp{end+1}='first of logfile not correct';
+end
+if ~strcmp(C{2},'2) test report=short;')
+    ErrorFlag_tmp(end+1) = 2;
+    ErrorMessage_tmp{end+1}='short logfile should strat in line 2';
+end
+if ~strcmp(C{6},'3) test report=long;')
+    ErrorFlag_tmp(end+1) = 2;
+    ErrorMessage_tmp{end+1}='long logfile should strat in line 6';
+end
 
 %%Merge errors
 [ErrorFlag,ErrorMessage,TestDescription]=mergeErrorFlag(ErrorFlag_tmp,ErrorMessage_tmp,TestDescription);

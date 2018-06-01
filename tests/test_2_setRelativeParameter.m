@@ -9,8 +9,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_2_setRelativeParameter
 %       ErrorMessage (string): Description of the error
 % % ToDo test if the DCI Interface accepts  the chagned values 
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 22-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 global DCI_INFO;
 
@@ -27,7 +26,7 @@ initSimulation(xml,'all','report','none','addFile',true);
 % set Relative Parameter Value
 TestDescription{end+1}='1) set Relative Parameter Value;';
 [indx] = setParameter(10,'TopContainer/P3',1,'parameterType','reference');
-setRelativeParameter(0.1,'TopContainer/P3',1,'indx',indx);
+setRelativeParameter(0.1,'TopContainer/P3',1,'rowindex',indx);
 value=DCI_INFO{1}.InputTab(2).Variables(3).Values(indx);
 success= value==1 && indx==3;
 
@@ -65,7 +64,7 @@ end
 %% set Species Inital Value
 TestDescription{end+1}='3.2)set Species Value with  more than one value;';
 [indx] = setSpeciesInitialValue(2,'*',1,'property','InitialValue','parameterType','reference');
-setRelativeSpeciesInitialValue(ones(length(indx),1),'TopContainer/Educt',1,'property','InitialValue','indx',indx);
+setRelativeSpeciesInitialValue(ones(length(indx),1),'TopContainer/Educt',1,'property','InitialValue','rowindex',indx);
 value=DCI_INFO{1}.InputTab(4).Variables(3).Values(indx);
 success= all(value==2);
 
@@ -93,8 +92,6 @@ logfile='setRelativeParameter';
 diary( ['log/' logfile '_' datestr(now,'yyyy_mm_dd') '.log']);
 diary on;
 
-ErrorFlag_tmp(end+1)=1;
-ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
 
 TestDescription{end+1}='5) get the value for a non existing parameter;';
 disp(sprintf('Test: %s',TestDescription{end})); %#ok<*DSPS>
@@ -103,6 +100,11 @@ try
     setRelativeParameter(1,'TopContainer/P13',1);
 catch exception
     disp(exception.message);
+    if ~strcmp(exception.message,'Parameter with path_id "TopContainer/P13" does not exist!')
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=['Failed in 5) check logfile:' logfile '!'];
+    end
+    
 end
 disp(' ');
 
@@ -113,6 +115,11 @@ try
     setRelativeSpeciesInitialValue(1,'TopContainer/P13',1);
 catch exception
     disp(exception.message);
+    if ~strcmp(exception.message,'Species initial value with path_id "TopContainer/P13" does not exist!')
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=['Failed in 6) check logfile:' logfile '!'];
+    end
+
 end
 disp(' ');
 
@@ -122,6 +129,11 @@ try
     setSpeciesInitialValue([2 4],'TopContainer/Educt',[2 1],'property','InitialValue','parameterType','reference');
 catch exception
     disp(exception.message);
+    if ~strcmp(exception.message,'The variable "value" has more than one entry, in this case "path_id" must be numeric (vector of IDs) or use the option rowIndex!')
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=['Failed in 7) check logfile:' logfile '!'];
+    end
+
 end
 disp(' ');
 

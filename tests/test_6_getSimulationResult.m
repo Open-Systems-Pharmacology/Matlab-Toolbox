@@ -8,8 +8,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_6_getSimulationResult
 %               2 = 'Serious Error'
 %       ErrorMessage (string): Description of the error
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 24-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 ErrorFlag_tmp=0;
 ErrorMessage_tmp{1}='';
@@ -88,8 +87,6 @@ logfile='getSimulationResult';
 diary( ['log/' logfile '_' datestr(now,'yyyy_mm_dd') '.log']);
 diary on;
 
-ErrorFlag_tmp(end+1)=1;
-ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
 
 %5) not existing simulation result
 TestDescription{end+1}='5) try to get not existing simulation result;';
@@ -98,6 +95,10 @@ try
     getSimulationResult(895,1);
 catch exception
     disp(exception.message);
+    if ~strcmp(exception.message,'Result with path_id "895" does not exist!')
+        ErrorFlag_tmp(end+1)=1;
+        ErrorMessage_tmp{end+1}=['Failed in 5) check logfile:' logfile '!'];
+    end
 end
 disp(' ');
 
@@ -111,6 +112,10 @@ try
     getSimulationResult(1,1);
 catch exception
     disp(exception.message);
+    if ~strcmp(exception.message,'Outputs not yet generated for simulationIndex 1. Please use processSimulation')
+        ErrorFlag_tmp(end+1)=1;
+        ErrorMessage_tmp{end+1}=['Failed in 5) check logfile:' logfile '!'];
+    end
 end
 disp(' ');
 
