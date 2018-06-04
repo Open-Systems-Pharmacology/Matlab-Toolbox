@@ -3,8 +3,7 @@ function loop_BasisToolBox
 % 
 % LOOP_BASISTOOLBOX
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 16-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 % prepare logDir
 if ~exist('log','dir')

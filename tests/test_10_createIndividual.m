@@ -8,8 +8,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_10_createIndividual
 %               2 = 'Serious Error'
 %       ErrorMessage (string): Description of the error
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 12-Dez-2012
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 ErrorFlag_tmp=0;
 ErrorMessage_tmp{1}='';
@@ -56,18 +55,42 @@ for iPar=1:length(individualParameters)
 end
 
 
-% compare all parameters
+% compare all parameters to check if the non indivudla non formula are
+% identical
 [ise,desc_1]=existsParameter('*',1);
 [ise,desc_2]=existsParameter('*',2);
-for i=2:size(desc_1,1)
-    if ~ismember(desc_2{i,2},strcat('asian woman|', {individualParameters(:).path_id})) && ...
-            ~strEnds(desc_2(i,2),'|Mean') && ...
-            ~strEnds(desc_2(i,2),'|Deviation') && ...
-            ~strEnds(desc_2(i,2),'|Percentile')
-        if abs((desc_2{i,3}-desc_1{i,3})/desc_1{i,3})>1e-3
+for i1=2:size(desc_1,1)
+    if ~ismember(desc_1{i1,2},strcat('default man|', {individualParameters(:).path_id})) && ...
+            ~strEnds(desc_1(i1,2),'|Mean') && ...
+            ~strEnds(desc_1(i1,2),'|Deviation') && ...
+            ~strEnds(desc_1(i1,2),'|Percentile')
+
+        i2 = find(strcmp(strrep(desc_1{i1,2} ,'default man','asian woman'),desc_2(:,2)));
+        if abs((desc_2{i2,3}-desc_1{i1,3})/desc_1{i1,3})>1e-3
             ErrorFlag_tmp(end+1)=2;
-            ErrorMessage_tmp{end+1}=sprintf('This should be an individual parameter: %s',desc_2{i,2});
+            ErrorMessage_tmp{end+1}=sprintf('This should be an individual parameter: %s',desc_2{i2,2});
         end
+    end
+end
+
+% preterm
+xmlFile='models/preterm.xml';
+initSimulation(xmlFile,'allnonFormula')
+species='Human';
+population=5;
+gender=1;
+age=getParameter('preterm|Organism|Age',1,'parametertype','readonly');
+weight=getParameter('preterm|Organism|Weight',1,'parametertype','readonly');
+height=getParameter('preterm|Organism|Height',1,'parametertype','readonly');
+GA=getParameter('preterm|Organism|Gestational age',1,'parametertype','readonly');
+BMI=nan;
+[isCanceled,individualParameters] = PKSimCreateIndividual(species, population, ...
+    gender, age, weight, height, BMI,xmlFile,1,false,GA);
+for iPar=1:length(individualParameters)
+    tmp=getParameter(['preterm|' individualParameters(iPar).path_id],1);
+    if abs((tmp-individualParameters(iPar).Value)/tmp)>1e-3
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=sprintf('values ar not equal: %s',individualParameters(iPar).path_id);
     end
 end
 

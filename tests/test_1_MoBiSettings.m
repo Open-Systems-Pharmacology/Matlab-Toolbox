@@ -9,8 +9,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_1_MoBiSettings
 %       ErrorMessage (string): Description of the error
  
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 16-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 global MOBI_SETTINGS;
 

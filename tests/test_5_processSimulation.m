@@ -8,8 +8,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_5_processSimulation
 %               2 = 'Serious Error'
 %       ErrorMessage (string): Description of the error
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 24-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 global DCI_INFO;
 
@@ -82,8 +81,6 @@ logfile='processSimulation';
 diary( ['log/' logfile '_' datestr(now,'yyyy_mm_dd') '.log']);
 diary on;
 
-ErrorFlag_tmp(end+1)=1;
-ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
 
 %4) ExecutionTimeLimit
 TestDescription{end+1}='4) ExecutionTimeLimit;';
@@ -91,7 +88,7 @@ disp(sprintf('Test: %s',TestDescription{end})); %#ok<*DSPS>
 xml=['models' filesep 'SimModel4_ExampleInput06.xml'];
 initSimulation(xml,'all','report','none','ExecutionTimeLimit',0.00000525);
 success=processSimulation;
-if success
+if ~success
     ErrorFlag_tmp(end+1)=2;
     ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
 end
@@ -99,18 +96,18 @@ end
 disp(' ');
 
 
-%5) Solver warning
-TestDescription{end+1}='5) Solver warning;';
-disp(sprintf('Test: %s',TestDescription{end})); %#ok<*DSPS>
-
-xml=['models' filesep 'PKModelCoreCaseStudy_01.xml'];
-initSimulation(xml,'all','report','none','stopOnWarnings',true);
-setParameter(0,1,1);
-success=processSimulation;
-if success
-    ErrorFlag_tmp(end+1)=2;
-    ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
-end
+% %5) Solver warning
+% TestDescription{end+1}='5) Solver warning;';
+% disp(sprintf('Test: %s',TestDescription{end})); %#ok<*DSPS>
+% 
+% xml=['models' filesep 'PKModelCoreCaseStudy_02.xml'];
+% initSimulation(xml,'all','report','none','stopOnWarnings',true);
+% setParameter(0,1,1);
+% success=processSimulation;
+% if success
+%     ErrorFlag_tmp(end+1)=2;
+%     ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
+% end
 
 disp(' ');
 

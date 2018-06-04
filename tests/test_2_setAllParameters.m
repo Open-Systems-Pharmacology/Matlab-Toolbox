@@ -9,8 +9,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_2_setAllParameter
 %       ErrorMessage (string): Description of the error
 % % ToDo test if the DCI Interface accepts  the chagned values 
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 22-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 global DCI_INFO;
 
@@ -54,8 +53,6 @@ logfile='setAllParameter';
 diary( ['log/' logfile '_' datestr(now,'yyyy_mm_dd') '.log']);
 diary on;
 
-ErrorFlag_tmp(end+1)=1;
-ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
 
 
 TestDescription{end+1}='3) Set read-only tables as target;';
@@ -65,16 +62,25 @@ try
     setAllParameters('readOnly','variable',1);
 catch exception
     disp(exception.message);
+    if ~strcmp(exception.message,'The parameter type for target is unknown: readOnly')
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=['Failed in 3) check logfile:' logfile '!'];
+    end
 end
 disp(' ');
 
-TestDescription{end+1}='4) Set unkwon tables as source;';
+TestDescription{end+1}='4) Set unknown tables as source;';
 disp(sprintf('Test: %s',TestDescription{end})); %#ok<*DSPS>
 % get Parameter for nonexisten pat_id
 try
     setAllParameters('unknown','readOnly',1);
 catch exception
     disp(exception.message);
+    if ~strcmp(exception.message,'The parameter type for target is unknown: unknown')
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=['Failed in 4) check logfile:' logfile '!'];
+    end
+    
 end
 disp(' ');
 

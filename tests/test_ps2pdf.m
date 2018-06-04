@@ -4,7 +4,7 @@ h=figure('visible','off');
 spy;
 print('-dpsc','test.ps');
 clf;
-for ii=1:5,
+for ii=1:5
   text(.5,.5,num2str(ii),'fontunits','centim','fontsize',10)
   axis off;
   print('test.ps','-append','-dpsc');

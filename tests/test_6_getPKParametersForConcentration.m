@@ -8,8 +8,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_6_getPKParametersForCo
 %               2 = 'Serious Error'
 %       ErrorMessage (string): Description of the error
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 24-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 ErrorFlag_tmp=0;
 ErrorMessage_tmp{1}='';
@@ -250,23 +249,20 @@ end
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Errors
 
-logfile='getPKParametersForConcentration';
-diary( ['log/' logfile '_' datestr(now,'yyyy_mm_dd') '.log']);
-diary on;
-
-ErrorFlag_tmp(end+1)=1;
-ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
 
 %2.1) try to short extrapolation range
 TestDescription{end+1}='2.1) try to short extrapolation range;';
 disp(sprintf('Test: %s',TestDescription{end})); %#ok<*DSPS>
-try
-    time=[1:10];
-    concentration=[2 1:3 1:3 1:3];
-    getPKParametersForConcentration(time,concentration);
-catch exception
-    disp(exception.message);
+
+time=[1:10];
+concentration=[2 1:3 1:3 1:3];
+getPKParametersForConcentration(time,concentration);
+warnMsg = lastwarn;
+if ~strcmp(warnMsg,'The extrapolation range is to small, only 2 points')
+    ErrorFlag_tmp(end+1)=2;
+    ErrorMessage_tmp{end+1}=['faiöed in 2.1!'];
 end
+
 disp(' ');
 
 

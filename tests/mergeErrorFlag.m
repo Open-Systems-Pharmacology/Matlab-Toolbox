@@ -7,9 +7,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = mergeErrorFlag(ErrorFlag_tm
 %   ErrorFlag double: Maximum of ErrorFlag_tmp
 %   ErrorMessage (string): concatination of all
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 16-Sep-2010
-
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 if isempty(ErrorFlag_tmp)
     ErrorFlag=0;
