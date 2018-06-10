@@ -32,7 +32,7 @@ popSet.ProportionOfFemales = 50;
 xml = 'models\preterm.xml';
 
 % create the population
-[isCanceled, pop_individuals] =PKSimCreatePopulation(popSet,xml);
+[isCanceled, pop_individuals] =PKSimCreatePopulation(popSet);
 
 if isCanceled
     ErrorFlag_tmp(end+1)=2;
