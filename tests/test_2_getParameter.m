@@ -8,9 +8,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_2_getParameter
 %               2 = 'Serious Error'
 %       ErrorMessage (string): Description of the error
  
- 
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 22-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 ErrorFlag_tmp=0;
 ErrorMessage_tmp{1}='';
@@ -45,7 +43,7 @@ end
 
 % get Parameter Reference Value specified by indx
 TestDescription{end+1}='1.3) get Parameter Reference Value by indx;';
-[value,indx] = getParameter('',1,'parameterType','reference','indx',4);
+[value,indx] = getParameter('',1,'parameterType','reference','rowindex',4);
 success= value==0 && indx==4;
 
 if ~success
@@ -178,8 +176,6 @@ logfile='getParameter';
 diary( ['log/' logfile '_' datestr(now,'yyyy_mm_dd') '.log']);
 diary on;
 
-ErrorFlag_tmp(end+1)=1;
-ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
 
 TestDescription{end+1}='3.1) get the value for a parameter which does not exist for the specified parameter type;';
 disp(sprintf('Test: %s',TestDescription{end})); %#ok<*DSPS>
@@ -188,6 +184,11 @@ try
     getParameter('TopContainer/P3',1,'parameterType','variable');
 catch exception
     disp(exception.message);
+    if ~strcmp(exception.message,'Parameter with path_id "TopContainer/P3" does not exist for specified parameter type "variable"!')
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=['Failed in 3.1 check logfile:' logfile '!'];
+    end
+        
 end
 
 diary off;

@@ -9,8 +9,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_3_getObserverFormula
 %       ErrorMessage (string): Description of the error
  
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 10-Jan-2011
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 ErrorFlag_tmp=0;
 ErrorMessage_tmp{1}='';
@@ -45,7 +44,7 @@ end
 % check existenz
 TestDescription{end+1}='2) check existen;';
 [~,desc]=existsObserver('*',1);
-success= all(size(desc)==[18 4]);
+success= all(size(desc)==[18 5]);
 
 if ~success
     ErrorFlag_tmp(end+1)=2;

@@ -9,8 +9,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_2_existsParameter
 %       ErrorMessage (string): Description of the error
  
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 20-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 ErrorFlag_tmp=0;
 ErrorMessage_tmp{1}='';
@@ -23,7 +22,7 @@ initSimulation(xml,'allNonFormula','report','none');
 TestDescription{end+1}='1) check for existing parameter;';
 [isExisting,description,indx] = existsParameter('TopContainer/P1',1,'parameterType','readonly');
 success=isExisting &&...
-    all(size(description)==[2,6]) &&...
+    all(size(description)==[2,7]) &&...
     indx==1;
 
 if ~success
@@ -47,7 +46,7 @@ end
 TestDescription{end+1}='3) check for existing speciesInitialValue;';
 [isExisting,description,indx] = existsSpeciesInitialValue('TopContainer/y1',1,'parameterType','readonly');
 success=isExisting &&...
-    all(size(description)==[2,7]) &&...
+    all(size(description)==[2,8]) &&...
     indx==1;
 
 if ~success
@@ -57,7 +56,7 @@ end
 
 % check for non existing speciesInitialValue
 TestDescription{end+1}='4) check for non existing speciesInitialValue;';
-[isExisting,description,indx] = existsSpeciesInitialValue('TopContainer/y1',1,'parameterType','variable');
+[isExisting,description,indx] = existsSpeciesInitialValue('TopContainer/blabla',1,'parameterType','variable');
 success=~isExisting &&...
     isempty(description) &&...
     isempty(indx);

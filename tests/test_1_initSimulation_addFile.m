@@ -9,8 +9,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_1_initSimulation_addFi
 %       ErrorMessage (string): Description of the error
  
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 21-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 global DCI_INFO;
 

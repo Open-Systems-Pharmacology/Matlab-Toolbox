@@ -8,8 +8,7 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_0_checkInputOptions
 %               2 = 'Serious Error'
 %       ErrorMessage (string): Description of the error
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 17-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 ErrorFlag_tmp=0;
 ErrorMessage_tmp{1}='';
@@ -136,8 +135,6 @@ logfile='checkInputOptions';
 diary( ['log/' logfile '_' datestr(now,'yyyy_mm_dd') '.log']);
 diary on;
 
-ErrorFlag_tmp(end+1)=1;
-ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
 
 % Check input option possible option values cell array wrong keyword
 TestDescription{end+1}='7) input option possible option values cell array wrong keyword;';
@@ -152,6 +149,13 @@ try
         });
 catch exception
     disp(exception.message);
+    if strcmp(exception.message,'For option "optionname" the keyword "Key4" is unknown!')
+        ErrorFlag_tmp(end+1)=0;
+        ErrorMessage_tmp{end+1}={};
+    else
+        ErrorFlag_tmp(end+1)=1;
+        ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
+    end
 end
 disp(' ');
 
@@ -169,6 +173,14 @@ try
         });
 catch exception
     disp(exception.message);
+    if strcmp(exception.message,'For option "optionname" the value "4" is unknown!')
+        ErrorFlag_tmp(end+1)=0;
+        ErrorMessage_tmp{end+1}={};
+    else
+        ErrorFlag_tmp(end+1)=1;
+        ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
+    end
+
 end
 disp(' ');
 
@@ -186,6 +198,13 @@ try
         });
 catch exception
     disp(exception.message);
+    if strcmp(exception.message,'For option "optionname" the value "1" must be numeric!')
+        ErrorFlag_tmp(end+1)=0;
+        ErrorMessage_tmp{end+1}={};
+    else
+        ErrorFlag_tmp(end+1)=1;
+        ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
+    end
 end
 disp(' ');
 
@@ -201,6 +220,14 @@ try
         });
 catch exception
     disp(exception.message);
+    if strcmp(exception.message,'For option "optionname" value "8" is not valid. The following condition has to be fulfilled: optionname>0 & optionname <= 7 !')
+        ErrorFlag_tmp(end+1)=0;
+        ErrorMessage_tmp{end+1}={};
+    else
+        ErrorFlag_tmp(end+1)=1;
+        ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
+    end
+
 end
 disp(' ');
 
@@ -216,6 +243,15 @@ try
         });
 catch exception
     disp(exception.message);
+    if strcmp(exception.message,'For option "optionname" the value "none" must be a cell!')
+        ErrorFlag_tmp(end+1)=0;
+        ErrorMessage_tmp{end+1}={};
+    else
+        ErrorFlag_tmp(end+1)=1;
+        ErrorMessage_tmp{end+1}=['check logfile:' logfile '!'];
+    end
+
+
 end
 disp(' ');
 diary off;

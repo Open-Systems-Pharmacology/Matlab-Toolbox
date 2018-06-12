@@ -8,36 +8,35 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_0_findTableIndex
 %               2 = 'Serious Error'
 %       ErrorMessage (string): Description of the error
  
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 19-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 ErrorFlag_tmp=0;
 ErrorMessage_tmp{1}='';
 TestDescription={};
 
-
-xml=['models' filesep 'Simulation 22_11_2011 12_38_50.xml'];
+% model initialisation
+xml=['models' filesep 'TableParameters.xml'];
 initSimulation(xml,'all','report','none');
 
 % find numeric
 TestDescription{end+1}='1) find indx per ID;';
-[indx] = findTableIndex(111, 2, 1);
-if indx~=1
+[indx] = findTableIndex(5738, 2, 1);
+if indx~= 1923
     ErrorFlag_tmp(end+1)=2;
     ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
 end
 
 % find in refernce table
-TestDescription{end+1}='2) find in refernce table;';
-[indx] = findTableIndex(111, 2, 1,true);
-if indx~=1
+TestDescription{end+1}='2) find in reference table;';
+[indx] = findTableIndex(5738, 2, 1,true);
+if indx~=1923
     ErrorFlag_tmp(end+1)=2;
     ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
 end
 
 % find numeric for nonexistent number
 TestDescription{end+1}='3) find numeric for nonexistent number;';
-[indx] = findTableIndex(1, 2, 1,true);
+[indx] = findTableIndex(9999, 2, 1,true);
 if ~isempty(indx)
     ErrorFlag_tmp(end+1)=2;
     ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
@@ -45,8 +44,8 @@ end
 
 % find path without wildcards
 TestDescription{end+1}='4) find path without wildcards;';
-[indx] = findTableIndex('No/H0', 2, 1,true);
-if indx~=7
+[indx] = findTableIndex('S1|Applications|T1|Fraction (dose)', 2, 1,true);
+if indx~=1923
     ErrorFlag_tmp(end+1)=2;
     ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
 end
@@ -54,7 +53,7 @@ end
 % find path all
 TestDescription{end+1}='5) find path all;';
 [indx] = findTableIndex('*', 2, 1,true);
-if ~all(indx==1:8)
+if length(indx) ~= 1947
     ErrorFlag_tmp(end+1)=2;
     ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
 end
@@ -69,16 +68,16 @@ end
 
 % find path end wildcard 
 TestDescription{end+1}='7) find path end wildcard ;';
-[indx] = findTableIndex('*Tol', 2, 1,true);
-if ~all(indx==[2:3]) %#ok<NBRAK>
+[indx] = findTableIndex('S1|Organism|FcRn receptor conc.*', 2, 1,true);
+if ~all(indx==9) 
     ErrorFlag_tmp(end+1)=2;
     ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
 end
 
 % find path wildcard in bewtween 
 TestDescription{end+1}='8)find path wildcard in bewtween ;';
-[indx] = findTableIndex('|*n', 2, 1,true);
-if ~all(indx==[5 8])
+[indx] = findTableIndex('S1|O*sm|Weight', 2, 1,true);
+if ~all(indx==5)
     ErrorFlag_tmp(end+1)=2;
     ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
 end
@@ -86,15 +85,15 @@ end
 % find path start wildcard 
 TestDescription{end+1}='9) find path start wildcard ;';
 [indx] = findTableIndex('*Tol', 2, 1,true);
-if ~all(indx==[2 3])
+if ~all(indx==[1941,1942])
     ErrorFlag_tmp(end+1)=2;
     ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
 end
 
 % find path more than one wild card
 TestDescription{end+1}='10) find path more than one wild card;';
-[indx] = findTableIndex('Model*rganism|Re*ion*k1', 2, 1,true);
-if ~all(indx==[1])
+[indx] = findTableIndex('S1|*|Rate constant for *dosomal uptake (*)', 2, 1,true);
+if ~all(indx==[20])
     ErrorFlag_tmp(end+1)=2;
     ErrorMessage_tmp{end+1}=sprintf('failed: %s',TestDescription{end});
 end

@@ -4,8 +4,7 @@ function checkHelptextForDirectory(functionDir)
 %   CHECKHELPTEXTFORDIRECTORY(functionDir)
 %       functionDir name of the directory
 
-% Open Systems Pharmacology Suite;  support@systems-biology.com
-% Date: 16-Sep-2010
+% Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
 files=dir([functionDir filesep '*.m']);
 
