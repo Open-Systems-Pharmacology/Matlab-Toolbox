@@ -94,6 +94,7 @@ def copy_to_lib_dir(target_lib_dir)
     copy_files File.join('DCI', arch), 'dll'
     copy_schema_xsd
     copy_dcimatlab_dll
+    copy_dcimatlab_mexw64
     copy_dimensions_xml
   end
 
