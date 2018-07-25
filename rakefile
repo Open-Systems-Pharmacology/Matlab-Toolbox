@@ -89,14 +89,15 @@ def copy_setup_files
 end
 
 def copy_to_lib_dir(target_lib_dir) 
+  arch = 'x64'
   copy_depdencies lib_dir, target_lib_dir do
-    copy_files File.join('DCI','x86'), 'dll'
+    copy_files File.join('DCI', arch), 'dll'
     copy_schema_xsd
     copy_dcimatlab_dll
     copy_dimensions_xml
   end
 
-  architecture = '/**/x86/**/Release'
+  architecture = "/**/#{arch}/**/Release"
   packages_dir =  File.join(solution_dir, 'packages')
 
   copy_depdencies packages_dir, target_lib_dir do
