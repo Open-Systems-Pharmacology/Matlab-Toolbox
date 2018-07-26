@@ -18,6 +18,9 @@ skip_branch_with_pr: true
 
 skip_tags: true
 
+pull_requests: 
+  do_not_increment_build_number: true     
+
 skip_commits:
   files:
     - '*.md'
