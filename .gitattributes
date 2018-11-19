@@ -19,6 +19,7 @@
 *.pptx binary
 *.fig binary
 *.mat binary
+*.mexw64 binary
 
 *.ascx text
 *.cd text
