@@ -86,6 +86,7 @@ GA=getParameter('preterm|Organism|Gestational age',1,'parametertype','readonly')
 BMI=nan;
 [isCanceled,individualParameters] = PKSimCreateIndividual(species, population, ...
     gender, age, weight, height, BMI,xmlFile,1,false,GA);
+warning('OFF', 'MoBiToolbox:Basis:TableParameterGet');
 for iPar=1:length(individualParameters)
     tmp=getParameter(['preterm|' individualParameters(iPar).path_id],1);
     if abs((tmp-individualParameters(iPar).Value)/tmp)>1e-3
@@ -93,7 +94,7 @@ for iPar=1:length(individualParameters)
         ErrorMessage_tmp{end+1}=sprintf('values ar not equal: %s',individualParameters(iPar).path_id);
     end
 end
-
+warning('ON', 'MoBiToolbox:Basis:TableParameterGet');
                                                   
 [ErrorFlag,ErrorMessage,TestDescription]=mergeErrorFlag(ErrorFlag_tmp,ErrorMessage_tmp,TestDescription);
 return

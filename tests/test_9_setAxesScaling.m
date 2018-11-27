@@ -10,6 +10,8 @@ function [ErrorFlag, ErrorMessage,TestDescription] = test_9_setAxesScaling
  
 % Open Systems Pharmacology Suite;  http://open-systems-pharmacology.org
 
+%warning('off', 'MoBiToolbox:Basis:setAxesScaling:TimUnitLog');
+
 ErrorFlag_tmp=0;
 ErrorMessage_tmp{1}='';
 TestDescription={};
@@ -110,4 +112,7 @@ shg;
 
 
 [ErrorFlag,ErrorMessage,TestDescription]=mergeErrorFlag(ErrorFlag_tmp,ErrorMessage_tmp,TestDescription);
+
+close all;
+%warning('on', 'MoBiToolbox:Basis:setAxesScaling:TimUnitLog');
 return

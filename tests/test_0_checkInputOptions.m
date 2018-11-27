@@ -132,6 +132,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Errors
 
 logfile='checkInputOptions';
+if ~exist('log','dir')
+    mkdir('log');
+end
 diary( ['log/' logfile '_' datestr(now,'yyyy_mm_dd') '.log']);
 diary on;
 
