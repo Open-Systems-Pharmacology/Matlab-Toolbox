@@ -15,7 +15,7 @@ WIX = {
 }
 
 task :create_setup,[:product_version] do |t, args|
-  @product_version = args.product_version
+ @product_version = sanitized_version(args.product_version)
   release_version_split= @product_version.split('.')
   @product_release_version = "#{release_version_split[0]}.#{release_version_split[1]}"
   @product_full_name = "#{PRODUCT_NAME} #{@product_release_version}"
@@ -89,14 +89,16 @@ def copy_setup_files
 end
 
 def copy_to_lib_dir(target_lib_dir) 
+  arch = 'x64'
   copy_depdencies lib_dir, target_lib_dir do
-    copy_files File.join('DCI','x86'), 'dll'
+    copy_files File.join('DCI', arch), 'dll'
     copy_schema_xsd
     copy_dcimatlab_dll
+    copy_dcimatlab_mexw64
     copy_dimensions_xml
   end
 
-  architecture = '/**/x86/**/Release'
+  architecture = "/**/#{arch}/**/Release"
   packages_dir =  File.join(solution_dir, 'packages')
 
   copy_depdencies packages_dir, target_lib_dir do
@@ -115,6 +117,12 @@ def execute_candle(component_name, deploy, variables)
 
   command_line = %W[#{File.join(deploy_dir, "#{component_name}.wxs")} -dDeployDir=#{deploy} -o #{deploy_dir}/]
   Utils.run_cmd Wix.candle, command_line + all_variables
+end
+
+def sanitized_version(version) 
+  pull_request_index = version.index('-')
+  return version unless pull_request_index
+  version.slice(0, pull_request_index)
 end
 
 def deploy_dir

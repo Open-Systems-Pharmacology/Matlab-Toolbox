@@ -91,4 +91,6 @@ shg
 
 [ErrorFlag,ErrorMessage,TestDescription]=mergeErrorFlag(ErrorFlag_tmp,ErrorMessage_tmp,TestDescription);
 
+close all;
+
 return

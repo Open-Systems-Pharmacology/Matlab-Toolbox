@@ -32,7 +32,7 @@ popSet.ProportionOfFemales = 50;
 xml = 'models\preterm.xml';
 
 % create the population
-[isCanceled, pop_individuals] =PKSimCreatePopulation(popSet);
+[isCanceled, pop_individuals] =PKSimCreatePopulation(popSet, xml);
 
 if isCanceled
     ErrorFlag_tmp(end+1)=2;
@@ -116,15 +116,16 @@ if ~any(jj)
     ErrorFlag_tmp(end+1)=2;
     ErrorMessage_tmp{end+1}=sprintf('Ontogeny factor (CYP3A4) was not created');        
 else
-    [h,p] = vartest2(log(tPKSIM.CYP3A4_OntogenyFactor),log([parameterInfos(jj).Value]));
-    if h==1
-        ErrorFlag_tmp(end+1)=2;
-        ErrorMessage_tmp{end+1}=sprintf('variance of Ontogeny factor (CYP3A4) is no like PKSimcreated pValue : %g ',p);
-    end
     [h,p] = ttest2(log(tPKSIM.CYP3A4_OntogenyFactor),log([parameterInfos(jj).Value]));
     if h==1
         ErrorFlag_tmp(end+1)=2;
         ErrorMessage_tmp{end+1}=sprintf('mean of Ontogeny factor (CYP3A4) is no like PKSimcreated pValue : %g ',p);
+    end
+    
+    [h,p] = vartest2(log(tPKSIM.CYP3A4_OntogenyFactor),log([parameterInfos(jj).Value]));
+    if h==1
+        ErrorFlag_tmp(end+1)=2;
+        ErrorMessage_tmp{end+1}=sprintf('variance of Ontogeny factor (CYP3A4) is no like PKSimcreated pValue : %g ',p);
     end
 end
 
